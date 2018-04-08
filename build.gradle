@@ -1,0 +1,39 @@
+group 'com.gm.web'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+buildscript {
+    repositories {
+        mavenCentral()//依赖Maven仓库
+    }
+    dependencies {
+        //使用1.4.2.RELEASE版本的Spring框架
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+configurations.all {
+    transitive = false
+
+    //编译期排除
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    //在整个构建过程中排除
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+}
+
+dependencies {
+
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+}
